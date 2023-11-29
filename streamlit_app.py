@@ -18,7 +18,7 @@ from langchain.prompts import (
     MessagesPlaceholder
 )
 
-st.set_page_config(page_title="Chat with the Streamlit docs, powered by LlamaIndex", page_icon="🔵", layout="centered", initial_sidebar_state="auto", menu_items=None)
+st.set_page_config(page_title="Chatbot | GCAC Wayfinding Project", page_icon="🔵", layout="centered", initial_sidebar_state="auto", menu_items=None)
 st.title("UofT Graduate Centre for Academic Communication (GCAC) Chatbot 💬")
 st.info("Check out everything there is know at the [GCAC website](https://www.sgs.utoronto.ca/resources-supports/gcac/)", icon="📃")
 
@@ -28,7 +28,7 @@ from langchain.chains import RetrievalQA
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
 import pinecone
-pinecone.init(
+pinecone.init(  
     api_key="39de8dc5-781a-4a69-949f-742dc27c6161",  # find at app.pinecone.io
     environment="gcp-starter"  # next to api key in console
 )
@@ -115,7 +115,28 @@ for message in st.session_state.messages:  # Display the prior chat messages
 
 # If last message is not from assistant, generate a new response
 if st.session_state.messages[-1]["role"] != "assistant":
+    st.markdown("""
+        <style>
+            @keyframes highlight {
+                0% { background-color: white; }
+                25% { background-color: #ff6c6c; }
+                50% { background-color: white; }
+                75% { background-color: #ff6c6c; }
+                100% { background-color: white; }
+            }
+
+            .stChatFloatingInputContainer {
+                animation: highlight 3s ease-in-out infinite;
+                padding: 4px !important;
+                margin: 0 !important;
+                margin-bottom: 60px !important;
+                border-radius: 10px !important;
+            }
+        </style>
+        """, unsafe_allow_html=True)
+        
     with st.chat_message("assistant"):
+
         message_placeholder = st.container()
         handler = StreamHandler(message_placeholder)
 
@@ -151,3 +172,54 @@ if st.session_state.messages[-1]["role"] != "assistant":
     # st.write(response.response)
     # message = {"role": "assistant", "content": response.response}
     # st.session_state.messages.append(message) # Add response to message history
+
+from streamlit_extras.stylable_container import stylable_container
+
+# if 'animation_played' not in st.session_state:
+#     st.session_state['animation_played'] = False
+
+# if not st.session_state['animation_played']:
+#     st.markdown("""
+#         <style>
+#             @keyframes highlight {
+#                 0% { background-color: white; }
+#                 25% { background-color: #002a5c; }
+#                 50% { background-color: white; }
+#                 75% { background-color: #002a5c; }
+#                 100% { background-color: white; }
+#             }
+
+#             .stChatFloatingInputContainer {
+#                 animation: highlight 15s ease-in-out infinite;
+#                 padding: 4px !important;
+#                 margin: 0 !important;
+#                 margin-bottom: 60px !important;
+#                 border-radius: 10px !important;
+#             }
+#         </style>
+#         """, unsafe_allow_html=True)
+#     st.session_state['animation_played'] = True
+
+if 'animation_played' not in st.session_state:
+    st.session_state['animation_played'] = False
+
+if st.session_state.messages[-1]["role"] != "user":
+    st.markdown("""
+        <style>
+            @keyframes highlight {
+                0% { background-color: white; }
+                25% { background-color: #73b9ff; }
+                50% { background-color: white; }
+                75% { background-color: #73b9ff; }
+                100% { background-color: white; }
+            }
+
+            .stChatFloatingInputContainer {
+                animation: highlight 12s ease-in-out infinite;
+                padding: 4px !important;
+                margin: 0 !important;
+                margin-bottom: 60px !important;
+                border-radius: 10px !important;
+            }
+        </style>
+        """, unsafe_allow_html=True)

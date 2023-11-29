@@ -4,3 +4,4 @@ llama-index
 nltk
 pinecone-client
 langchain
+streamlit-extras
